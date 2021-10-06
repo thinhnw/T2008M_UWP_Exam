@@ -5,11 +5,13 @@
     xmlns:local="using:T2008M_UWP_Exam"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:T2008M_UWP_Exam.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Padding="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -27,6 +29,7 @@
                  MinWidth="350"
                  HorizontalAlignment="Stretch"
                  Margin="0,0,0,20"
+                 x:Name="NameText"
                  />
 
         <TextBlock FontSize="16" 
@@ -37,6 +40,7 @@
                  HorizontalAlignment="Stretch"
                  MinWidth="350"
                  Margin="0,0,0,20"
+                 x:Name="DescriptionText"
                  />
         <TextBlock FontSize="16" 
                    Grid.Row="2"
@@ -44,12 +48,43 @@
         <ComboBox Grid.Column="2"
                   Grid.Row="2" 
                   Margin="0,0,0,20"
-                  Width="120"
+                  Width="350"
                   x:Name="ImagesCombo"
                   ItemsSource="{x:Bind imagePaths}"
+                  Loaded="ImagesCombo_Loaded"
                   />
         <Button Grid.Row="3"
-                Grid.Column="2">Order</Button>
+                Grid.Column="2"
+                Click="Button_Click">Order</Button>
+
+        <GridView x:Name="ProductList" 
+                  Grid.Row="4" Grid.ColumnSpan="4"
+                  Margin="0,20,0,0" Loaded="ProductList_Loaded">
+            <GridView.ItemTemplate>
+                <DataTemplate x:Name="IconTextTemplate" x:DataType="models:Product">
+                    <StackPanel 
+                        Width="200" 
+                        Padding="10,0,10,0" 
+                        BorderThickness="1"                   
+                    >
+                        <Image Height="200" Width="Auto">
+                            <Image.Source>
+                                <BitmapImage UriSource="{x:Bind Image.UriSource}" />
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Margin="12,0,0,0" Width="204" Text="{x:Bind Name}" FontWeight="Bold" FontSize="24" />
+                        <TextBlock Margin="12,0,0,0" Width="204" Text="{x:Bind Description}" FontWeight="Normal" FontSize="16" />
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
 
     </Grid>
 </Page>
+
+    
